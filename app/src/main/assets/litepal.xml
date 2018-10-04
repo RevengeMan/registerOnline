@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <dbname value="BackstageManager"/>
+    <version value="1"/>
+    <list>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Appointment"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Callback"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Consumer"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Doctor"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Hospital"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Patient"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Section"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.AppointmentInfo"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.StartLocation"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.CastHistory"/>
+    </list>
+</litepal>

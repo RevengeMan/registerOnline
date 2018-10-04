@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <EditText
+        android:id="@+id/et_patient_name"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/user_icon"
+        android:drawablePadding="10dp"
+        android:paddingLeft="8dp"
+        android:gravity="center_vertical"
+        android:hint="请输入姓名"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="@color/smssdk_gray"
+        android:textSize="16sp"
+        android:background="@null"/>
+
+    <EditText
+        android:id="@+id/patient_id_card"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/id_card_icon_new"
+        android:drawablePadding="10dp"
+        android:paddingLeft="8dp"
+        android:hint="请输入身份证号"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="@color/smssdk_gray"
+        android:textSize="16sp"
+        android:background="@null"/>
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="60dp">
+
+    <TableRow
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal">
+        <ImageView
+            android:layout_height="28dp"
+            android:layout_width="28dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/sex_icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/smssdk_gray"
+            android:layout_marginLeft="8dp"
+            android:hint="性别："/>
+        <RadioGroup
+            android:id="@+id/rg"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="80dp"
+            android:layout_gravity="center_horizontal">
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_marginTop="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="男" />
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_marginTop="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="女"/>
+        </RadioGroup>
+    </TableRow>
+    </TableLayout>
+    <include layout="@layout/bottom_bar"/>
+</LinearLayout>

@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+//添加插件
+apply plugin: 'com.mob.sdk'
+
+// 在MobSDK的扩展中注册SMSSDK的相关信息
+MobSDK {
+    appKey "27cda970a9a9a"
+    appSecret "a933f9378d42aba2346a60d1901f3659"
+
+    SMSSDK {}
+}
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "stu.byron.com.onlineregistrationproject"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    androidTestCompile('com.android.support:support-annotations:26.1.0') {
+        force = true
+    }
+    implementation 'com.github.codbking:PickTime:v1.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'org.litepal.android:core:2.0.0'
+    implementation files('libs/AMap3DMap_6.4.1_AMapNavi_6.3.0_20180906.jar')
+    implementation files('libs/AMap_Location_V4.2.0_20180809.jar')
+}

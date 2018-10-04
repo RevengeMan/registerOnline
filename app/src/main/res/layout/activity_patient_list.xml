@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/title_bar"/>
+
+    <ListView
+        android:id="@+id/lv_patient_listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="1dp"
+        android:divider="@color/smssdk_gray"
+        android:layout_marginBottom="50dp"/>
+
+    <Button
+        android:id="@+id/btn_add_patient"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="#ffffff"
+        android:text="添加"
+        android:background="@drawable/shape"
+        android:visibility="gone"/>
+</LinearLayout>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+    <RelativeLayout
+        android:id="@+id/rl_hospital_name"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_hospital_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/hospital_icon"/>
+        <TextView
+            android:id="@+id/tv_hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_hospital_icon"
+            android:textColor="#000000"
+            android:textSize="16sp"
+             />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_section"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_section_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/section_icon"/>
+        <TextView
+            android:id="@+id/tv_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_section_icon"
+            android:hint="请选择挂号科室"
+            android:textColorHint="#A3A3A3"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/iv_right_arrow" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_doctor_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/doctor_icon"/>
+        <TextView
+            android:id="@+id/tv_doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_doctor_icon"
+            android:hint="请选择医生"
+            android:textColorHint="#A3A3A3"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/iv_right_arrow" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+    <RelativeLayout
+        android:id="@+id/rl_datatime"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_datatime_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/datatime_icon"/>
+        <TextView
+            android:id="@+id/tv_addtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_datatime_icon"
+            android:hint="请选择时间"
+            android:textColor="#000000"
+            android:textColorHint="#A3A3A3"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/iv_right_arrow" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_patient"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_patient_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/patient_icon"/>
+        <TextView
+            android:id="@+id/tv_patient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_patient_icon"
+            android:hint="请选择患者信息"
+            android:textColor="#000000"
+            android:textColorHint="#A3A3A3"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/iv_right_arrow" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/iv_navigation_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@mipmap/navigation_icon"/>
+        <TextView
+            android:id="@+id/tv_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/iv_navigation_icon"
+            android:hint="导航"
+            android:textColor="#000000"
+            android:textColorHint="#A3A3A3"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/iv_right_arrow" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E3E3E3"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#F7F8F8"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <EditText
+            android:id="@+id/description_content"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@mipmap/description_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="8dp"
+            android:gravity="center_vertical"
+            android:hint="并且描述或其他要求"
+            android:maxLines="3"
+            android:textColor="#000000"
+            android:textColorHint="@color/smssdk_gray"
+            android:textSize="16sp"
+            android:background="#A9A9A9"/>
+    </RelativeLayout>
+    <include layout="@layout/bottom_bar"/>
+</LinearLayout>

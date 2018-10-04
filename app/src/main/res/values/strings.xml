@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">OnlineRegistrationProject</string>
+    <string name="enter_experience">进入体验</string>
+    <string name="register">注册</string>
+    <string name="login">登录</string>
+    <string name="contact">联系客服8888-666-666</string>
+    <string name="complaint">投诉信箱kuangjinlong@qq.com</string>
+</resources>
