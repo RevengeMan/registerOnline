@@ -29,8 +29,8 @@ public class AutoReceiver extends BroadcastReceiver {
             // 通过Notification.Builder来创建通知，注意API Level
             // API16之后才支持
             Notification notify = new Notification.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setTicker("TickerText:" + "您有新短消息，请注意查收！")
+                    .setSmallIcon(R.mipmap.message_notify)
+                    .setTicker("您有新短消息，请注意查收！")
                     .setContentTitle("服务信息")
                     .setContentText("您预约了今天的就诊！")
                     .setContentIntent(pendingIntent).setNumber(1).build(); // 需要注意build()是在API

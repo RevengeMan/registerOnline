@@ -48,11 +48,12 @@ public class MessageFragment extends Fragment {
     private TextView tv_back,tv_main_title;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
-    private Boolean isLogin;
+    private Boolean isLogin=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_message_layout,container,false);
+        sharedPreferencesUtil = SharedPreferencesUtil.getInstance(getActivity());
         isLogin=sharedPreferencesUtil.getResult("isLogin");
         if (isLogin) {
             initView();
@@ -184,7 +185,7 @@ public class MessageFragment extends Fragment {
                     Toast.makeText(getActivity(), "消息已删除",
                             Toast.LENGTH_SHORT).show();
                     mDataList.remove(pos);
-                    //LitePal.deleteAll(Message.class,"msg_id=?",String.valueOf(msg_id));
+                    LitePal.deleteAll(Message.class,"msg_id=?",String.valueOf(msg_id));
                     HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.DELETE_MESSAGE, "msg_id",String.valueOf(msg_id) , new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
