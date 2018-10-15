@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import stu.byron.com.onlineregistrationproject.R;
 import stu.byron.com.onlineregistrationproject.activity.MainActivity;
+import stu.byron.com.onlineregistrationproject.bean.AppointmentInfo;
 
 /**
  * Created by Byron on 2018/10/2.
@@ -21,6 +22,7 @@ public class AutoReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("VIDEO_TIMER")) {
+
             Intent intent1=new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                     intent, 0);
@@ -38,6 +40,7 @@ public class AutoReceiver extends BroadcastReceiver {
             NotificationManager manager = (NotificationManager) context
                     .getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(NOTIFICATION_FLAG, notify);// 步骤4：通过通知管理器来发起通知。如果id不同，则每click，在status哪里增加一个提示
+
         }
     }
 }

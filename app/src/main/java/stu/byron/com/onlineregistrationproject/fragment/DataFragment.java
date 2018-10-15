@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import stu.byron.com.onlineregistrationproject.R;
+import stu.byron.com.onlineregistrationproject.activity.ComentsActivity;
 import stu.byron.com.onlineregistrationproject.activity.PayActivity;
 import stu.byron.com.onlineregistrationproject.adapter.AppointmentAdapter;
 import stu.byron.com.onlineregistrationproject.bean.Appointment;
@@ -66,6 +68,10 @@ public class DataFragment extends Fragment {
     private ListView listView3;
     private RelativeLayout rl,rl1,rl2,rl3;
     private SharedPreferencesUtil sharedPreferencesUtil=null;
+
+    private SwipeRefreshLayout swipeRefresh;
+
+    private Boolean inData=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,6 +89,9 @@ public class DataFragment extends Fragment {
     }
 
     private void initView(){
+        swipeRefresh=view.findViewById(R.id.swipe_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+
         TabHost tab=view.findViewById(android.R.id.tabhost);
         listView=view.findViewById(R.id.listview);
         listView1=view.findViewById(R.id.listview1);
@@ -103,6 +112,7 @@ public class DataFragment extends Fragment {
     }
 
     private void initData(){
+        //inData=false;
         if (sharedPreferencesUtil.getResult("isLogin")) {
             //dataList.clear();
             queryFormServe();
@@ -110,20 +120,48 @@ public class DataFragment extends Fragment {
             data2.clear();
             data3.clear();
             appointmentList=LitePal.findAll(AppointmentInfo.class);
+            Date date=new Date(System.currentTimeMillis());
             for (int i = 0; i < appointmentList.size(); i++) {
                 AppointmentInfo appointment = appointmentList.get(i);
                 if (appointment.getAt_status() == 0) {
-                    data1.add(appointment);
-                    Log.e("data1", "initData: "+data1);
-                    //adapter1.notifyDataSetChanged();
+                    if (TimeUtil.isDateOneBigger(appointment.getAt_time(),TimeUtil.ConverToString(date))) {
+                        data1.add(appointment);
+                        Log.e("data1", "initData: " + data1);
+                    }else {
+                        HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.CANCEL_APPOINTMENT, "at_id", String.valueOf(appointment.getAt_id()), new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+
+                            }
+                        });
+                    }
                 } else if (appointment.getAt_status() == 1) {
-                    data2.add(appointment);
-                    //adapter2.notifyDataSetChanged();
-                } else {
+                    if (TimeUtil.isDateOneBigger(appointment.getAt_time(),TimeUtil.ConverToString(date))){
+                        data2.add(appointment);
+                    }else {
+                        HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.CHANGE_APPOINTSTATUS, "at_id", String.valueOf(appointment.getAt_id()), new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+
+                            }
+                        });
+                        appointment.setAt_status(2);
+                        appointment.updateAll("cm_id=?",String.valueOf(appointment.getAt_id()));
+                        data3.add(appointment);
+                    }
+                } else if (appointment.getAt_status() == 2){
                     data3.add(appointment);
-                    //adapter3.notifyDataSetChanged();
                 }
-                Date date=new Date(System.currentTimeMillis());
                 if (appointment.getAt_time().equals(TimeUtil.ConverToString(date))){
                     Log.e("DataFragment", "date:"+TimeUtil.ConverToString(date)+",at_time:"+appointment.getAt_time());
                     Intent intent = new Intent(getActivity(), AutoReceiver.class);
@@ -142,40 +180,6 @@ public class DataFragment extends Fragment {
         }
     }
 
-    private void backData(){
-        queryFormServe();
-        data1.clear();
-        data2.clear();
-        data3.clear();
-        appointmentList=LitePal.findAll(AppointmentInfo.class);
-        for (int i = 0; i < appointmentList.size(); i++) {
-            AppointmentInfo appointment = appointmentList.get(i);
-            if (appointment.getAt_status() == 0) {
-                data1.add(appointment);
-                Log.e("data1", "initData: " + data1);
-                //adapter1.notifyDataSetChanged();
-            } else if (appointment.getAt_status() == 1) {
-                data2.add(appointment);
-                //adapter2.notifyDataSetChanged();
-            } else {
-                data3.add(appointment);
-                //adapter3.notifyDataSetChanged();
-            }
-        }
-        if (data1.size()!=0){
-                adapter1.notifyDataSetChanged();
-                listView1.setSelection(0);
-            }
-        if (data2.size()!=0){
-                adapter2.notifyDataSetChanged();
-                listView2.setSelection(0);
-            }
-        if (data3.size()!=0){
-                adapter3.notifyDataSetChanged();
-                listView3.setSelection(0);
-            }
-
-    }
     private void setListener(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -210,11 +214,19 @@ public class DataFragment extends Fragment {
         listView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(), PayActivity.class);
+                Intent intent=new Intent(getActivity(), ComentsActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("info",data3.get(position));
                 intent.putExtras(bundle);
                 startActivityForResult(intent,1);
+            }
+        });
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //initView();
+                initData();
+                setAdapter();
             }
         });
     }
@@ -223,9 +235,6 @@ public class DataFragment extends Fragment {
         if (appointmentList.size()>0) {
             adapter = new AppointmentAdapter(getActivity(), dataList);
             listView.setAdapter(adapter);
-
-           /* adapter1=new AppointmentAdapter(getActivity(),data1);
-            listView1.setAdapter(adapter1);*/
         }else {
             listView.setVisibility(View.GONE);
             rl.setVisibility(View.VISIBLE);
@@ -259,6 +268,7 @@ public class DataFragment extends Fragment {
             dataList.clear();
             for (AppointmentInfo appointment:appointmentList){
                 dataList.add(appointment);
+                Log.e("size:","大小："+dataList.size());
             }
             adapter.notifyDataSetChanged();//bug
             listView.setSelection(0);
@@ -269,17 +279,24 @@ public class DataFragment extends Fragment {
 
     private void queryFormServe(){
         Consumer consumer=LitePal.findAll(Consumer.class).get(0);
-        Log.e("cm_id", "queryFormServe: "+consumer.getCm_id() );
+
+        // Log.e("cm_id", "queryFormServe: "+consumer.getCm_id() );
         HttpUtil.sendOkHttpRequest(Constant.BASE_PATH+Constant.GET_APPOINTMENTINFO,"cm_id",String.valueOf(consumer.getCm_id()), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
 
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText=response.body().string();
-                Log.e("response", "onResponse: "+responseText );
+                //Log.e("response", "onResponse: "+responseText );
                 if (responseText.equals("empty")){
                     sharedPreferencesUtil.insertData("isData",false);
                 }else {
@@ -294,6 +311,13 @@ public class DataFragment extends Fragment {
                         });
                     }
                 }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+
             }
         });
     }
@@ -301,9 +325,10 @@ public class DataFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LitePal.deleteAll(AppointmentInfo.class);
-        dataList.clear();
-        Log.e("DataFragment", "onActivityResult: "+"delete data" );
-        backData();
+        //LitePal.deleteAll(AppointmentInfo.class);
+        //dataList.clear();
+        //backData();
+        initData();
+        setAdapter();
     }
 }

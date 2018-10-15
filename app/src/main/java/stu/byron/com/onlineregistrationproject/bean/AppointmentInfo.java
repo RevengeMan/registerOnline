@@ -19,6 +19,24 @@ public class AppointmentInfo extends LitePalSupport implements Serializable {
     private String pt_name;
     private String sc_name;
     private String dt_name;
+    private String at_comments;
+    private int hp_datamoney;
+
+    public int getHp_datamoney() {
+        return hp_datamoney;
+    }
+
+    public void setHp_datamoney(int hp_datamoney) {
+        this.hp_datamoney = hp_datamoney;
+    }
+
+    public String getAt_comments() {
+        return at_comments;
+    }
+
+    public void setAt_comments(String at_comments) {
+        this.at_comments = at_comments;
+    }
 
     public int getCm_id() {
         return cm_id;
@@ -99,4 +117,5 @@ public class AppointmentInfo extends LitePalSupport implements Serializable {
     public void setDt_name(String dt_name) {
         this.dt_name = dt_name;
     }
+
 }

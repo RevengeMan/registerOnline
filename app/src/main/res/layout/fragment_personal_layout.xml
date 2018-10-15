@@ -5,29 +5,31 @@
     android:background="@android:color/white"
     android:orientation="vertical">
     <include layout="@layout/title_bar"/>
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_head"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/login_bg"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/iv_head_icon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
+
+        <stu.byron.com.onlineregistrationproject.view.CircleImageView
+            android:id="@+id/iv_person_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
             android:layout_marginTop="60dp"
-            android:src="@drawable/default_icon"/>
+            android:src="@drawable/default_icon" />
         <TextView
             android:id="@+id/tv_user_name"
+            android:layout_below="@+id/iv_person_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:text="点击登录"
             android:textColor="@android:color/white"
             android:textSize="16sp"/>
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -79,7 +81,8 @@
         android:background="#F7F8F8"
         android:layout_gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/iv_coupons_icon"
             android:layout_width="20dp"

@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 public class Consumer extends LitePalSupport implements Serializable {
     private int cm_id;
+    private byte[] cm_image;
     private String cm_nickname;
     private String cm_sex;
     private String cm_realname;
@@ -20,6 +21,14 @@ public class Consumer extends LitePalSupport implements Serializable {
     private String cm_idnumber;
     private String add_time;
     private double cm_count;
+
+    public byte[] getCm_image() {
+        return cm_image;
+    }
+
+    public void setCm_image(byte[] cm_image) {
+        this.cm_image = cm_image;
+    }
 
     public double getCm_count() {
         return cm_count;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <litepal>
     <dbname value="BackstageManager"/>
-    <version value="1"/>
+    <version value="4"/>
     <list>
         <mapping class="stu.byron.com.onlineregistrationproject.bean.Appointment"/>
         <mapping class="stu.byron.com.onlineregistrationproject.bean.Callback"/>
@@ -13,5 +13,6 @@
         <mapping class="stu.byron.com.onlineregistrationproject.bean.AppointmentInfo"/>
         <mapping class="stu.byron.com.onlineregistrationproject.bean.StartLocation"/>
         <mapping class="stu.byron.com.onlineregistrationproject.bean.CastHistory"/>
+        <mapping class="stu.byron.com.onlineregistrationproject.bean.Message"/>
     </list>
 </litepal>

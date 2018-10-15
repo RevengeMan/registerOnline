@@ -17,6 +17,7 @@ import stu.byron.com.onlineregistrationproject.bean.CastHistory;
 import stu.byron.com.onlineregistrationproject.bean.Consumer;
 import stu.byron.com.onlineregistrationproject.bean.Doctor;
 import stu.byron.com.onlineregistrationproject.bean.Hospital;
+import stu.byron.com.onlineregistrationproject.bean.Message;
 import stu.byron.com.onlineregistrationproject.bean.Patient;
 import stu.byron.com.onlineregistrationproject.bean.Section;
 import stu.byron.com.onlineregistrationproject.db.SharedPreferencesUtil;
@@ -42,6 +43,7 @@ public class ParseData {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray array = new JSONArray(response);
+                LitePal.deleteAll(Section.class);
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject json = array.getJSONObject(i);
                     Gson gson = new Gson();
@@ -62,16 +64,24 @@ public class ParseData {
     public static Boolean handleHospitalResponse(String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
+                //Log.e("arrayInfo",response);
                 JSONArray array = new JSONArray(response);
+                LitePal.deleteAll(Hospital.class);
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject json = array.getJSONObject(i);
                     Gson gson = new Gson();
                     Hospital hospital = gson.fromJson(json.toString(), Hospital.class);
                     //LitePal.deleteAll(Hospital.class);
-                    if (LitePal.findAll(Hospital.class).size() < array.length()) {
+                    /*if (LitePal.findAll(Hospital.class).size() < array.length()) {
+                        //Log.e("Data", "handleHospitalResponse: "+hospital.getHp_name());
                         hospital.save();
-                    }
+                        Log.e("size", "LitepalSize: "+LitePal.findAll(Hospital.class).size()+"ArraySize:"+array.length());
+                    }*/
+                    hospital.save();
                 }
+                /*for (int i=0;i<LitePal.findAll(Hospital.class).size();i++){
+                    Log.e("LitepalInfo", LitePal.findAll(Hospital.class).get(i).getHp_name());
+                }*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -84,6 +94,7 @@ public class ParseData {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray array = new JSONArray(response);
+                LitePal.deleteAll(Doctor.class);
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject json = array.getJSONObject(i);
                     Gson gson = new Gson();
@@ -106,6 +117,7 @@ public class ParseData {
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONArray array=new JSONArray(response);
+                LitePal.deleteAll(Patient.class);
                 for (int i=0;i<array.length();i++){
                     JSONObject json= array.getJSONObject(i);
                     Gson gson=new Gson();
@@ -161,6 +173,28 @@ public class ParseData {
                 e.printStackTrace();
             }
             return  true;
+        }
+        return false;
+    }
+
+    public static Boolean handleMessageResponse(String response){
+        if (!TextUtils.isEmpty(response)){
+            try {
+                JSONArray array=new JSONArray(response);
+                LitePal.deleteAll(Message.class);
+                for (int i=0;i<array.length();i++){
+                    JSONObject json=array.getJSONObject(i);
+                    Gson gson=new Gson();
+                    Message message=gson.fromJson(json.toString(),Message.class);
+                    if (LitePal.findAll(Message.class).size()<array.length()){
+                        message.save();
+                        Log.e("ee", "执行到这里" );
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return true;
         }
         return false;
     }

@@ -206,11 +206,45 @@
             android:maxLines="2"
             android:text="6.00"/>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/smssdk_gray"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/smssdk_gray"/>
+
+        <LinearLayout
+            android:id="@+id/ll_comments"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <TextView
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:gravity="center_vertical"
+                android:text="评价："/>
+            <TextView
+                android:id="@+id/tv_comments"
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:maxLines="3"
+                android:text="还行把！"/>
+        </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/smssdk_gray"/>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/bottom_btn"

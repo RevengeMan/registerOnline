@@ -133,6 +133,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         }
                     });
+                    HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.HOSPITAL_DATA, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String responseText=response.body().string();
+                            ParseData.handleHospitalResponse(responseText);
+                        }
+                    });
                 }
                 break;
             case R.id.tv_back:

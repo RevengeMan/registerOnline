@@ -1,6 +1,8 @@
 package stu.byron.com.onlineregistrationproject.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,13 +16,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.litepal.LitePal;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import stu.byron.com.onlineregistrationproject.R;
 import stu.byron.com.onlineregistrationproject.activity.CallbackActivity;
 import stu.byron.com.onlineregistrationproject.activity.LoginActivity;
 import stu.byron.com.onlineregistrationproject.activity.MyCountActivity;
 import stu.byron.com.onlineregistrationproject.activity.SettingActivity;
 import stu.byron.com.onlineregistrationproject.activity.UserInfoActivity;
+import stu.byron.com.onlineregistrationproject.bean.Consumer;
 import stu.byron.com.onlineregistrationproject.db.SharedPreferencesUtil;
+import stu.byron.com.onlineregistrationproject.util.Constant;
+import stu.byron.com.onlineregistrationproject.util.HttpUtil;
+import stu.byron.com.onlineregistrationproject.util.ParseData;
+import stu.byron.com.onlineregistrationproject.view.CircleImageView;
 
 /**
  * Created by Byron on 2018/9/17.
@@ -28,7 +42,7 @@ import stu.byron.com.onlineregistrationproject.db.SharedPreferencesUtil;
 
 public class PersonalFragment extends Fragment implements View.OnClickListener{
     View view;
-    private ImageView iv_head_icon;
+    private CircleImageView iv_head_icon;
     private TextView tv_text_username;
 
     private RelativeLayout ll_title_bar;
@@ -40,6 +54,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
 
     private Boolean isLogin;
     private String spUserName;
+    //private ImageView iv_person_icon;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +70,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
 
     private void initView(){
         tv_text_username=view.findViewById(R.id.tv_user_name);
-        iv_head_icon=view.findViewById(R.id.iv_head_icon);
+        iv_head_icon=view.findViewById(R.id.iv_person_icon);
         ll_title_bar=view.findViewById(R.id.title_bar);
         ll_title_bar.setBackgroundColor(Color.parseColor("#30B4FF"));
         tv_back=view.findViewById(R.id.tv_back);
@@ -66,13 +81,21 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
         rl_coupons=view.findViewById(R.id.rl_coupons);
         rl_callback=view.findViewById(R.id.rl_callback);
         rl_setting=view.findViewById(R.id.rl_setting);
+        //iv_person_icon=view.findViewById(R.id.iv_person_icon);
     }
 
     private void initData()
     {
         if (isLogin){
+            Consumer consumer=new Consumer();
+            consumer= LitePal.findAll(Consumer.class).get(0);
+            if (consumer.getCm_image()!=null&&consumer.getCm_image().length>0) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(consumer.getCm_image(), 0, consumer.getCm_image().length);
+                iv_head_icon.setImageBitmap(bitmap);
+            }
             tv_text_username.setText(spUserName);
         }else {
+            iv_head_icon.setImageResource(R.drawable.default_icon);
             tv_text_username.setText("点击登录");
         }
     }
@@ -90,10 +113,10 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.iv_head_icon:
+            case R.id.iv_person_icon:
                 if (isLogin){
                     Intent intent=new Intent(getActivity(), UserInfoActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivityForResult(intent,1);
@@ -102,7 +125,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
             case R.id.tv_user_name:
                 if (isLogin){
                     Intent intent=new Intent(getActivity(), UserInfoActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }else {
                     Intent intent2 = new Intent(getActivity(), LoginActivity.class);
                     startActivityForResult(intent2,1);
@@ -150,10 +173,26 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Toast.makeText(getActivity(),"执行到这里1",Toast.LENGTH_SHORT).show();
         if (data!=null) {
+            //Toast.makeText(getActivity(),"执行到这里2",Toast.LENGTH_SHORT).show();
             isLogin = sharedPreferencesUtil.getResult("isLogin");
             spUserName = sharedPreferencesUtil.getInfo("username");
             initData();
+//            Consumer consumer=new Consumer();
+//            String cm_id=String.valueOf(consumer.getCm_id());
+//            HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.GET_APPOINTMENTINFO, "cm_id", cm_id, new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//
+//                }
+//
+//                @Override
+//                public void onResponse(Call call, Response response) throws IOException {
+//                    String responseText=response.body().string();
+//                    ParseData.handleAppointmentInfoResponse(responseText);
+//                }
+//            });
         }
     }
 }

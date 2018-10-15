@@ -1,5 +1,6 @@
 package stu.byron.com.onlineregistrationproject.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
@@ -8,11 +9,20 @@ import android.widget.RadioGroup;
 import android.widget.TabHost;
 
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import stu.byron.com.onlineregistrationproject.R;
 import stu.byron.com.onlineregistrationproject.fragment.DataFragment;
 import stu.byron.com.onlineregistrationproject.fragment.MainFragment;
 import stu.byron.com.onlineregistrationproject.fragment.MessageFragment;
 import stu.byron.com.onlineregistrationproject.fragment.PersonalFragment;
+import stu.byron.com.onlineregistrationproject.service.AutoUpdateService;
+import stu.byron.com.onlineregistrationproject.util.Constant;
+import stu.byron.com.onlineregistrationproject.util.HttpUtil;
+import stu.byron.com.onlineregistrationproject.util.ParseData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId){
                         case R.id.radio_main:
+                            Intent intent=new Intent(MainActivity.this, AutoUpdateService.class);
+                            startService(intent);
                             mtabHost.setCurrentTab(0);
                             break;
                         case R.id.radio_message:
@@ -58,6 +70,5 @@ public class MainActivity extends AppCompatActivity {
             mtabHost.setCurrentTab(0);
         }
     }
-
 
 }

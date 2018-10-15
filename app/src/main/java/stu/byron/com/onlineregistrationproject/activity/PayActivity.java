@@ -29,6 +29,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import stu.byron.com.onlineregistrationproject.R;
+import stu.byron.com.onlineregistrationproject.bean.Appointment;
 import stu.byron.com.onlineregistrationproject.bean.AppointmentInfo;
 import stu.byron.com.onlineregistrationproject.bean.CastHistory;
 import stu.byron.com.onlineregistrationproject.bean.Consumer;
@@ -53,6 +54,9 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
    private Button pay_for;
    private Button pay,cancel;
     private Dialog dialog;
+
+    private LinearLayout ll_comments;
+    private TextView tv_comments;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,17 +86,30 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         tv_expense=findViewById(R.id.tv_expense);
         pay=findViewById(R.id.btn_pay);
 
+        tv_comments=findViewById(R.id.tv_comments);
+        ll_comments=findViewById(R.id.ll_comments);
+
         tv_hp_name.setText(info.getHp_name());
         tv_sc_name.setText(info.getSc_name());
         tv_dc_name.setText(info.getDt_name());
         tv_pt_name.setText(info.getPt_name());
         tv_data_time.setText(info.getAt_time());
         tv_description.setText(info.getDescription());
-        tv_expense.setText("30.00");
+        tv_expense.setText(String.valueOf(info.getHp_datamoney()));
         tv_back.setOnClickListener(this);
         if (info.getAt_status()!=0){
             //cancel.setVisibility(View.GONE);
             pay.setVisibility(View.GONE);
+        }
+        if (info.getAt_status()==2 ){
+            cancel.setVisibility(View.GONE);
+        }
+        if (info.getAt_status()==3){
+            cancel.setVisibility(View.GONE);
+            ll_comments.setVisibility(View.VISIBLE);
+            if (info.getAt_comments()!=null) {
+                tv_comments.setText(info.getAt_comments());
+            }
         }
     }
 
@@ -106,7 +123,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         choosePhoto.setOnClickListener(this);
         takePhoto.setOnClickListener(this);*/
         expense=inflate.findViewById(R.id.tv_expense_detail);
-        expense.setText("30.00");
+        expense.setText(String.valueOf(info.getHp_datamoney()));
         pay_for=inflate.findViewById(R.id.pay_for);
         //将布局设置给Dialog
         pay_for.setOnClickListener(this);
@@ -131,6 +148,9 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.tv_back:
                 //dialog.dismiss();
+                Intent intent1=new Intent();
+                intent1.putExtra("pay_back","pay_back");
+                setResult(RESULT_OK,intent1);
                 PayActivity.this.finish();
                 break;
             case R.id.pay_for:
@@ -172,6 +192,10 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                     String recharge_money=String.valueOf(count);
                     values.put("cm_count", count);
                     LitePal.updateAll(Consumer.class, values, "cm_id = ?", cm_id);
+                    AppointmentInfo changeInfo=new AppointmentInfo();
+                    changeInfo=info;
+                    changeInfo.setAt_status(1);
+                    changeInfo.updateAll("at_id=?",String.valueOf(info.getAt_id()));
                     Intent intent=new Intent();
                     setResult(RESULT_OK,intent);
                     dialog.dismiss();
@@ -189,13 +213,16 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.e("Test外面", "onClick: "+info.getAt_status() );
+                        //Log.e("Test外面", "onClick: "+info.getAt_status() );
                         if (info.getAt_status()==1){
-                            //退款状态为2
-                            Log.e("Test", "onClick: "+info.getAt_status() );
+                            //退款状态为1
+                            //Log.e("Test", "onClick: "+info.getAt_status() );
                             Consumer consumer1=new Consumer();
                             consumer1= LitePal.findAll(Consumer.class).get(0);
                             double money=Double.parseDouble("30.0");
+                            double lastMoney=consumer1.getCm_count()+money;
+                            String cm_id=String.valueOf(consumer1.getCm_id());
+                            String sLastMoney=String.valueOf(lastMoney);
                             CastHistory castHistory=new CastHistory();
                             castHistory.setCh_status(3);
                             castHistory.setCm_id(consumer1.getCm_id());
@@ -214,8 +241,19 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
                                 }
                             });
+                            HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.RECHARGE, "cm_id", cm_id, "count", sLastMoney, new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+
+                                }
+                            });
                         }
-                        HttpUtil.sendOkHttpRequest(Constant.BASE_PATH+Constant.CANCEL_APPOINTMENT, "at_id", String.valueOf(info.getAt_id()), new Callback() {
+                        HttpUtil.sendOkHttpRequest(Constant.BASE_PATH+Constant.CANCEL_APPOINTMENT, "at_id", String.valueOf(info.getAt_id()),new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
 
@@ -226,6 +264,7 @@ public class PayActivity extends AppCompatActivity implements View.OnClickListen
 
                             }
                         });
+                        LitePal.deleteAll(AppointmentInfo.class,"at_id=?",String.valueOf(info.getAt_id()));
                         Toast.makeText(PayActivity.this,"取消预约成功",Toast.LENGTH_SHORT).show();
 
                         Intent intent=new Intent();

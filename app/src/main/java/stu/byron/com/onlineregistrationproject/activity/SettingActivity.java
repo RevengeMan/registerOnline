@@ -15,6 +15,7 @@ import org.litepal.LitePal;
 
 import stu.byron.com.onlineregistrationproject.R;
 import stu.byron.com.onlineregistrationproject.bean.Consumer;
+import stu.byron.com.onlineregistrationproject.bean.Hospital;
 import stu.byron.com.onlineregistrationproject.db.SharedPreferencesUtil;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener{
@@ -79,6 +80,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         String userName=sharedPreferencesUtil.getInfo("username");
         LitePal.deleteAll(Consumer.class,"cm_nickname=?",userName);
         sharedPreferencesUtil.insertData("username","");
+        LitePal.deleteAll(Hospital.class);
         Intent intent =new Intent();
         intent.putExtra("isLogin",false);
         //intent.putExtra("username","");

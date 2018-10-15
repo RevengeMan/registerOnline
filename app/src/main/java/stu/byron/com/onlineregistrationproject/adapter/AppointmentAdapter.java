@@ -66,6 +66,8 @@ public class AppointmentAdapter extends BaseAdapter {
             vh.tv_operator.setText("等待服务");
         }else if (info.getAt_status()==2){
             vh.tv_operator.setText("去评价");
+        }else if (info.getAt_status()==3){
+            vh.tv_operator.setText("已评价");
         }
         return convertView;
     }

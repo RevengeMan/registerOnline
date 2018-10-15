@@ -79,8 +79,8 @@ public class HospitalAdapter extends BaseAdapter {
             }
         });
         vh.tv_hospital_name.setText(hospital.getHp_name());
-        vh.tv_hospital_level.setText("三甲");
-        vh.tv_data_count.setText("100");
+        vh.tv_hospital_level.setText(hospital.getHp_level());
+        vh.tv_data_count.setText(String.valueOf(hospital.getHp_datacount()));
         return convertView;
     }
 

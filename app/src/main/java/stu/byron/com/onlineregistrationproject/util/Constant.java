@@ -8,7 +8,7 @@ import android.content.Context;
  */
 
 public class Constant {
-    public static final String BASE_PATH="http://10.255.47.220:8080/BackStageManager/";
+    public static final String BASE_PATH="http://192.168.0.109:8080/BackStageManager/";
     public static final String LOGIN="data/login";
     public static final String HOSPITAL_DATA="data/hospital";
     public static final String REGISTER="data/register";
@@ -29,6 +29,11 @@ public class Constant {
     public static final String FIND_PASSWORD="data/findPassword";
     public static final String INSERT_CASTHISTORY="data/insertHistory";
     public static final String GET_HISTORY="data/getHistory";
+    public static final String CHANGE_PICTURE="data/getPicture";
+    public static final String CHANGE_APPOINTSTATUS="data/updateAppointmentStatu";
+    public static final String COMMENTS="data/insertComments";
+    public static final String GET_MESSAGE="data/getMessages";
+    public static final String DELETE_MESSAGE="data/deleteMessages";
 
     public static void showDialog(Context context,String text){
         new AlertDialog.Builder(context)

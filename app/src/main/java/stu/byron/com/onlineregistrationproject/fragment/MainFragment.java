@@ -24,11 +24,14 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import recycler.coverflow.CoverFlowLayoutManger;
+import recycler.coverflow.RecyclerCoverFlow;
 import stu.byron.com.onlineregistrationproject.R;
 import stu.byron.com.onlineregistrationproject.activity.DataActivity;
 import stu.byron.com.onlineregistrationproject.adapter.HospitalAdapter;
 import stu.byron.com.onlineregistrationproject.bean.Hospital;
 import stu.byron.com.onlineregistrationproject.db.SharedPreferencesUtil;
+import stu.byron.com.onlineregistrationproject.service.AutoUpdateService;
 import stu.byron.com.onlineregistrationproject.util.Constant;
 import stu.byron.com.onlineregistrationproject.util.HttpUtil;
 import stu.byron.com.onlineregistrationproject.util.ParseData;
@@ -37,7 +40,7 @@ import stu.byron.com.onlineregistrationproject.util.ParseData;
  * Created by Byron on 2018/9/17.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements Adapter.onItemClick{
     View view;
     private ListView lv_hospital_listview;
     private List<Hospital> hospitals;
@@ -52,19 +55,31 @@ public class MainFragment extends Fragment {
 
     private HospitalAdapter adapter;
 
+    private RecyclerCoverFlow mList;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_main_layout,container,false);
         sharedPreferencesUtil=SharedPreferencesUtil.getInstance(getActivity());
-        initView();
-        initData();
-        setAdapter();
-        setListener();;
+        isLogin=sharedPreferencesUtil.getResult("isLogin");
+        if (isLogin) {
+            //LitePal.deleteAll(Hospital.class);
+            initView();
+            initData();
+            initList();
+            //initData();
+            setAdapter();
+            setListener();
+            initMessage();
+        }else{
+            Toast.makeText(getActivity(),"您还未登录",Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
     private void setAdapter(){
+        dataList=LitePal.findAll(Hospital.class);
         adapter=new HospitalAdapter(getActivity(),dataList);
         lv_hospital_listview.setAdapter(adapter);
     }
@@ -97,11 +112,29 @@ public class MainFragment extends Fragment {
         tv_main_title.setText("首页");
     }
 
-    private void initData(){
-        isLogin=sharedPreferencesUtil.getResult("isLogin");
-        queryFormServer();
+    private void initList(){
+        mList = (RecyclerCoverFlow)view.findViewById(R.id.list);
+//        mList.setFlatFlow(true); //平面滚动
+//        mList.setGreyItem(true); //设置灰度渐变
+//        mList.setAlphaItem(true); //设置半透渐变
+
+        hospitals=LitePal.findAll(Hospital.class);
+        mList.setAdapter(new Adapter(getActivity(), this,hospitals));
+        mList.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+            @Override
+            public void onItemSelected(int position) {
+                Toast.makeText(getActivity(),hospitals.get(position%hospitals.size()).getHp_name(),Toast.LENGTH_SHORT).show();
+                //((TextView)view.findViewById(R.id.index)).setText((position+1)+"/"+mList.getLayoutManager().getItemCount());
+            }
+        });
     }
 
+    private void initData(){
+
+        //queryFormServer();
+    }
+
+    //int count=1;
     private void queryHospital(){
         hospitals=LitePal.findAll(Hospital.class);
         if (hospitals.size()>0){
@@ -112,6 +145,7 @@ public class MainFragment extends Fragment {
             adapter.notifyDataSetChanged();
             lv_hospital_listview.setSelection(0);
         }else {
+            //Log.e("count", String.valueOf(count++));
             queryFormServer();
         }
     }
@@ -129,11 +163,12 @@ public class MainFragment extends Fragment {
                 String responseText=response.body().string();
                 Log.d("MainFragment", "onResponse: "+responseText.toString());
                 boolean result=false;
+                //LitePal.deleteAll(Hospital.class);
                 result=ParseData.handleHospitalResponse(responseText);
                 List<Hospital> hospitals= LitePal.findAll(Hospital.class);
-                for (int i=0;i<hospitals.size();i++){
+               /* for (int i=0;i<hospitals.size();i++){
                     Log.d("MainFragment", "onResponse: "+hospitals.get(i).getHp_name());
-                }
+                }*/
                 if (result){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -146,4 +181,23 @@ public class MainFragment extends Fragment {
         });
     }
 
+    @Override
+    public void clickItem(int pos) {
+        mList.smoothScrollToPosition(pos);
+    }
+
+    private void initMessage(){
+        HttpUtil.sendOkHttpRequest(Constant.BASE_PATH + Constant.GET_MESSAGE, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseText=response.body().string();
+                ParseData.handleMessageResponse(responseText);
+            }
+        });
+    }
 }

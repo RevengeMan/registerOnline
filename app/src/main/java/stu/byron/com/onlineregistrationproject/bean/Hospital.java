@@ -16,6 +16,33 @@ public class Hospital extends LitePalSupport implements Serializable{
     private String hp_longitude;
     private String hp_latitude;
     private String add_time;
+    private String hp_level;
+    private int hp_datacount;
+    private int hp_datamoney;
+
+    public String getHp_level() {
+        return hp_level;
+    }
+
+    public void setHp_level(String hp_level) {
+        this.hp_level = hp_level;
+    }
+
+    public int getHp_datacount() {
+        return hp_datacount;
+    }
+
+    public void setHp_datacount(int hp_datacount) {
+        this.hp_datacount = hp_datacount;
+    }
+
+    public int getHp_datamoney() {
+        return hp_datamoney;
+    }
+
+    public void setHp_datamoney(int hp_datamoney) {
+        this.hp_datamoney = hp_datamoney;
+    }
 
     public int getHp_id() {
         return hp_id;

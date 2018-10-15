@@ -1,5 +1,8 @@
 package stu.byron.com.onlineregistrationproject.util;
 
+import android.util.Base64;
+import android.util.Log;
+
 import java.util.HashMap;
 
 import stu.byron.com.onlineregistrationproject.bean.Appointment;
@@ -38,6 +41,12 @@ public class PostMap {
         }
         if (consumer.getAdd_time()!=null){
             params.put("add_time",consumer.getAdd_time());
+        }
+        if (consumer.getCm_image()!=null){
+            //String imgStr=String.valueOf(consumer.getCm_image());
+            String imgS= Base64.encodeToString(consumer.getCm_image(),Base64.DEFAULT);
+            Log.e("Test", "ConsumerPacking: "+imgS);
+            params.put("cm_image",String.valueOf(imgS));
         }
         return params;
     }
